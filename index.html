@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Küttepuude müük Ida-Virumaal</title>
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
+  <!-- Flatpickr (kalender) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css"
+        integrity="sha384-RkASv+6KfBMW9eknReJIJ6b3UnjKOKC5bOUaNgIY778NFbQ8MtWq9Lr/khUgqtTt" crossorigin="anonymous">
+  <!-- Oma kujundus -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <header class="site-bar">
+    <div class="site-bar-inner">
+      <h1 class="site-title js-site-title"></h1>
+
+      <div id="langSwitch" class="lang-switch" role="group" aria-label="Keel / Language / Язык"></div>
+
+      <a class="call-btn js-phone-link" href="#">
+        <i class="bi bi-telephone-fill" aria-hidden="true"></i>
+        <span data-i18n="callLabel"></span>
+        <span class="js-phone-text"></span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Piirkond -->
+  <p class="info-line">
+    <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
+    <span class="visually-hidden" data-i18n="labelLocation"></span>
+    <span class="js-location-text"></span>
+  </p>
+
+  <main class="page-grid">
+
+    <!-- ===== HINNAD ===== -->
+    <section id="hinnad" class="section section-prices">
+      <div class="container narrow">
+        <h2 data-i18n="pricesTitle"></h2>
+        <p class="section-intro" data-i18n="pricesIntro"></p>
+
+        <ul class="price-list" id="priceList"></ul>
+
+        <div class="info-box">
+          <p data-i18n="deliveryIncluded"></p>
+          <p data-i18n="payment"></p>
+          <p id="deliveryAreas"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TELLIMINE ===== -->
+    <section id="telli" class="section section-alt">
+      <div class="container narrow">
+        <h2 data-i18n="orderTitle"></h2>
+        <p class="section-intro" data-i18n="orderIntro"></p>
+
+        <form id="orderForm" class="order-card" novalidate>
+          <!-- Vigade kokkuvõte -->
+          <div id="errorSummary" class="alert alert-danger d-none" role="alert" tabindex="-1"></div>
+
+          <!-- Puuliik -->
+          <div class="mb-4">
+            <fieldset>
+              <legend class="form-label" data-i18n="labelSpecies"></legend>
+              <div id="speciesChoice" class="product-options"></div>
+            </fieldset>
+            <div class="field-error" id="err-species"></div>
+          </div>
+
+          <!-- Pikkus -->
+          <div class="mb-4">
+            <fieldset>
+              <legend class="form-label" data-i18n="labelLength"></legend>
+              <div id="lengthChoice" class="product-options"></div>
+            </fieldset>
+            <div class="field-error" id="err-length"></div>
+          </div>
+
+          <!-- Kokku -->
+          <div class="total-box" aria-live="polite">
+            <span data-i18n="totalLabel"></span>
+            <strong id="totalAmount">—</strong>
+            <div class="total-detail" id="totalDetail"></div>
+          </div>
+
+          <!-- Tarnepäev -->
+          <div class="mb-4">
+            <label for="deliveryDate" class="form-label" data-i18n="labelDate"></label>
+            <p class="form-hint" id="dateHint"></p>
+            <input id="deliveryDate" name="deliveryDate" type="text" class="visually-hidden" tabindex="-1" aria-hidden="true">
+            <div id="calendarWrap" class="calendar-wrap"></div>
+            <ul class="legend">
+              <li><span class="legend-dot legend-free"></span> <span data-i18n="legendFree"></span></li>
+              <li><span class="legend-dot legend-closed"></span> <span data-i18n="legendClosed"></span></li>
+            </ul>
+            <p class="selected-date" id="selectedDate" aria-live="polite"></p>
+            <p class="form-hint" data-i18n="dateContactHint"></p>
+            <div class="field-error" id="err-date"></div>
+          </div>
+
+          <!-- Kontaktandmed -->
+          <div class="row g-3">
+            <div class="col-12">
+              <label for="name" class="form-label" data-i18n="labelName"></label>
+              <input id="name" name="name" type="text" class="form-control form-control-lg" autocomplete="name">
+              <div class="field-error" id="err-name"></div>
+            </div>
+            <div class="col-md-6">
+              <label for="phone" class="form-label" data-i18n="labelPhone"></label>
+              <input id="phone" name="phone" type="tel" class="form-control form-control-lg" autocomplete="tel">
+              <div class="field-error" id="err-phone"></div>
+            </div>
+            <div class="col-md-6">
+              <label for="email" class="form-label" data-i18n="labelEmailOptional"></label>
+              <input id="email" name="email" type="email" class="form-control form-control-lg" autocomplete="email">
+              <div class="field-error" id="err-email"></div>
+            </div>
+            <div class="col-12">
+              <label for="address" class="form-label" data-i18n="labelAddress"></label>
+              <input id="address" name="address" type="text" class="form-control form-control-lg"
+                     autocomplete="street-address" data-i18n-placeholder="addressPlaceholder">
+              <div class="field-error" id="err-address"></div>
+            </div>
+            <div class="col-12">
+              <label for="notes" class="form-label" data-i18n="labelNotes"></label>
+              <textarea id="notes" name="notes" rows="3" class="form-control form-control-lg"
+                        data-i18n-placeholder="notesPlaceholder"></textarea>
+            </div>
+          </div>
+
+          <div class="hp-field" aria-hidden="true">
+            <label for="website">Website</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <!-- Privaatsusmärkus -->
+          <p class="privacy-note" data-i18n="privacyNote"></p>
+
+          <button type="submit" id="submitBtn" class="btn btn-forest btn-lg w-100 mt-3" data-i18n="submit"></button>
+
+          <!-- Teade pärast saatmist -->
+          <div id="formStatus" class="alert d-none mt-4" role="status"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== PILDID  ===== -->
+    <section id="galerii" class="section gallery-section" hidden>
+      <div class="container narrow">
+        <h2 data-i18n="galleryTitle"></h2>
+        <div class="gallery" id="galleryGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> <span class="js-biz-name"></span></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"
+          integrity="sha384-5JqMv4L/Xa0hfvtF06qboNdhvuYXUku9ZrhZh3bSk8VXF0A/RuSLHpLsSV9Zqhl6" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/et.js"
+          integrity="sha384-l6j92/VW3BnFh50jJuAGzpMquD+egVg3Dczvaiox1FrPcYnmqfVCmqOKKzC2KFZt" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/ru.js"
+          integrity="sha384-hiYbFn9RFta0VOSz0tWehgGvRCg4pOVM1gcoKY0Lv4d4c/4GAFPeWtxmIeRxEZ7C" crossorigin="anonymous"></script>
+  <script src="script.js"></script>
+</body>
+</html>
